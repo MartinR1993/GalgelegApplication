@@ -56,7 +56,7 @@ public class spil_frag extends Fragment implements View.OnClickListener {
             edit.setError("Skriv præcis ét bogstav");
             return;
         }
-        if(bogstav.)
+
         logik.gætBogstav(bogstav);
         edit.setText("");
         edit.setError(null);
