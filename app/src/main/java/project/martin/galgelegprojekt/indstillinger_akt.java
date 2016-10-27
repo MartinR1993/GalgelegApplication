@@ -1,9 +1,7 @@
 package project.martin.galgelegprojekt;
 
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -32,6 +30,7 @@ public class indstillinger_akt extends AppCompatActivity implements AdapterView.
 
         setContentView(listView);
     }
+
 
     public void onItemClick(AdapterView<?> liste, View v, int position, long id) {
         Toast.makeText(this, "Ikke implementeret endnu", Toast.LENGTH_SHORT).show();
