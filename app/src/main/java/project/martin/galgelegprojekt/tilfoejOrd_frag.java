@@ -46,6 +46,7 @@ public class tilfoejOrd_frag extends Fragment implements View.OnClickListener {
 
         tilfoej = new EditText(getActivity());
         tilfoej.setHint("Indtast et ord her...");
+        tilfoej.setWidth(750);
         ll.addView(tilfoej);
 
         Button OK = new Button(getActivity());
