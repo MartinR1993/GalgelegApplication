@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 /**
  * Created by Martin on 17-10-2016.
@@ -19,7 +21,7 @@ public class spil_frag extends Fragment implements View.OnClickListener {
     Galgelogik logik = new Galgelogik();
     private ImageView iw;
     private TextView info;
-    private Button spilKnap;
+    private Button gætKnap, spilIgen;
     private EditText edit;
 
     @Override
@@ -40,27 +42,42 @@ public class spil_frag extends Fragment implements View.OnClickListener {
         edit.setHint("Skriv ét bogstav...");
         tl.addView(edit);
 
-        spilKnap = new Button(getActivity());
-        spilKnap.setText("Spil");
-        tl.addView(spilKnap);
+        gætKnap = new Button(getActivity());
+        gætKnap.setText("Gæt");
+        tl.addView(gætKnap);
 
-        spilKnap.setOnClickListener(this);
+        spilIgen = new Button(getActivity());
+        spilIgen.setText("Spil igen");
+        spilIgen.setVisibility(View.INVISIBLE);
+        tl.addView(spilIgen);
+
+        gætKnap.setOnClickListener(this);
+        spilIgen.setOnClickListener(this);
 
         return tl;
     }
 
     @Override
     public void onClick(View v) {
-        String bogstav = edit.getText().toString();
-        if(bogstav.length() != 1){
-            edit.setError("Skriv præcis ét bogstav");
-            return;
+        if(v == gætKnap) {
+            String bogstav = edit.getText().toString();
+            if (bogstav.length() != 1) {
+                edit.setError("Skriv præcis ét bogstav");
+                return;
+            }
+
+            logik.gætBogstav(bogstav);
+            edit.setText("");
+            edit.setError(null);
+            opdaterSkærm();
+        }
+        else if(v == spilIgen){
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentindhold, new spil_frag())
+                    .addToBackStack(null)
+                    .commit();
         }
 
-        logik.gætBogstav(bogstav);
-        edit.setText("");
-        edit.setError(null);
-        opdaterSkærm();
     }
 
     private void opdaterSkærm(){
@@ -97,9 +114,15 @@ public class spil_frag extends Fragment implements View.OnClickListener {
         }
         if (logik.erSpilletVundet()) {
             info.append("\nDu har vundet");
+            Toast.makeText(getActivity(), "Du har vundet", Toast.LENGTH_SHORT).show();
+            gætKnap.setVisibility(View.INVISIBLE);
+            spilIgen.setVisibility(View.VISIBLE);
         }
         if (logik.erSpilletTabt()) {
-            info.setText("Du har tabt, ordet var : " + logik.getOrdet());
+            info.append("\nDu har tabt, ordet var : " + logik.getOrdet());
+            Toast.makeText(getActivity(), "Du har tabt", Toast.LENGTH_SHORT).show();
+            gætKnap.setVisibility(View.INVISIBLE);
+            spilIgen.setVisibility(View.VISIBLE);
         }
     }
 }

@@ -44,6 +44,14 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="18dp" />
 
+        <TextView
+            android:text="Loading..."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/progressBar5"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/textView3" />
+
     </RelativeLayout>
 
 </LinearLayout>

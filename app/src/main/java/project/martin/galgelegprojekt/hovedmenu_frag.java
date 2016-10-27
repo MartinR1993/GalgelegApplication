@@ -1,7 +1,6 @@
 package project.martin.galgelegprojekt;
 
 import android.content.Intent;
-import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,18 +13,18 @@ import android.widget.Button;
  */
 
 public class hovedmenu_frag extends Fragment implements View.OnClickListener {
-    Button hjaelpknap, spilKnap, indstillinger;
+    Button tilfoejknap, spilKnap, indstillinger;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rod = inflater.inflate(R.layout.hovedmenu, container, false);
 
         spilKnap = (Button) rod.findViewById(R.id.spilKnap);
-        hjaelpknap = (Button) rod.findViewById(R.id.hjalepKnap);
+        tilfoejknap = (Button) rod.findViewById(R.id.tilfoejOrd);
         indstillinger = (Button) rod.findViewById(R.id.indstillingerKnap);
 
         spilKnap.setOnClickListener(this);
-        hjaelpknap.setOnClickListener(this);
+        tilfoejknap.setOnClickListener(this);
         indstillinger.setOnClickListener(this);
 
         return rod;
@@ -35,14 +34,12 @@ public class hovedmenu_frag extends Fragment implements View.OnClickListener {
         if(v == spilKnap){
             getFragmentManager().beginTransaction()
                     .replace(R.id.fragmentindhold, new spil_frag())
-                    .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                     .addToBackStack(null)
                     .commit();
         }
-        else if(v == hjaelpknap) {
+        else if(v == tilfoejknap) {
             getFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentindhold, new hjælp_frag())
-                    .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                    .replace(R.id.fragmentindhold, new tilfoejOrd_frag())
                     .addToBackStack(null)
                     .commit();
         }

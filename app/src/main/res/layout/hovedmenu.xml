@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/frontscreen"
             android:id="@+id/imageView"
-            android:layout_above="@+id/hjalepKnap"
+            android:layout_above="@+id/tilfoejOrd"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="90dp" />
 
@@ -33,15 +33,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spilKnap"
-            android:layout_above="@+id/hjalepKnap"
+            android:layout_above="@+id/tilfoejOrd"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:background="#03A9F4" />
 
         <Button
-            android:text="Hjælp"
+            android:text="Tilføj ord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/hjalepKnap"
+            android:id="@+id/tilfoejOrd"
             android:layout_above="@+id/indstillingerKnap"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />

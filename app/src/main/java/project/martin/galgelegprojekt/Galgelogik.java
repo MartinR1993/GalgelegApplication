@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Random;
 
 public class Galgelogik {
-  private ArrayList<String> muligeOrd = new ArrayList<String>();
+  public ArrayList<String> muligeOrd = new ArrayList<String>();
   private String ordet;
   private ArrayList<String> brugteBogstaver = new ArrayList<String>();
   private String synligtOrd;
@@ -63,6 +63,25 @@ public class Galgelogik {
     muligeOrd.add("skovsnegl");
     muligeOrd.add("solsort");
     nulstil();
+     /*try {
+      hentOrdFraDr();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }*/
+  }
+
+  public String toString(){
+    String array = null;
+
+    for (int i = 0; i < muligeOrd.size(); i++){
+      if(array == null) {
+        array = muligeOrd.get(i);
+      }
+      else{
+        array = array + " \n" + muligeOrd.get(i);
+      }
+    }
+    return array;
   }
 
   public void nulstil() {
