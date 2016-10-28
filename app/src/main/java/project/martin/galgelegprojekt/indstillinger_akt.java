@@ -36,7 +36,7 @@ public class indstillinger_akt extends AppCompatActivity implements AdapterView.
         Toast.makeText(this, "Ikke implementeret endnu", Toast.LENGTH_SHORT).show();
     }
 
-    public boolean onOptionsItenSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId() == android.R.id.home){
             onBackPressed();
         }

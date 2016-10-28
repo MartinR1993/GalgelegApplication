@@ -33,12 +33,14 @@ public class hovedmenu_frag extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if(v == spilKnap){
             getFragmentManager().beginTransaction()
+                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                     .replace(R.id.fragmentindhold, new spil_frag())
                     .addToBackStack(null)
                     .commit();
         }
         else if(v == tilfoejknap) {
             getFragmentManager().beginTransaction()
+                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                     .replace(R.id.fragmentindhold, new tilfoejOrd_frag())
                     .addToBackStack(null)
                     .commit();
