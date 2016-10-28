@@ -1,5 +1,6 @@
 package project.martin.galgelegprojekt;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ public class spil_frag extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         ScrollView sw = new ScrollView(getActivity());
         TableLayout tl = new TableLayout(getActivity());
+        LinearLayout ll = new LinearLayout(getActivity());
 
         info = new TextView(getActivity());
         info.setText("Velkommen til Galgelegen!" +
@@ -42,11 +45,15 @@ public class spil_frag extends Fragment implements View.OnClickListener {
 
         edit = new EditText(getActivity());
         edit.setHint("Skriv ét bogstav...");
-        tl.addView(edit);
+        edit.setWidth(750);
+        ll.addView(edit);
 
         gætKnap = new Button(getActivity());
         gætKnap.setText("Gæt");
-        tl.addView(gætKnap);
+        gætKnap.setBackgroundColor(Color.parseColor("#03A9F4"));
+        ll.addView(gætKnap);
+
+        tl.addView(ll);
 
         spilIgen = new Button(getActivity());
         spilIgen.setText("Spil igen");
@@ -118,12 +125,14 @@ public class spil_frag extends Fragment implements View.OnClickListener {
         if (logik.erSpilletVundet()) {
             info.append("\nDu har vundet");
             Toast.makeText(getActivity(), "Du har vundet", Toast.LENGTH_SHORT).show();
+            edit.setVisibility(View.INVISIBLE);
             gætKnap.setVisibility(View.INVISIBLE);
             spilIgen.setVisibility(View.VISIBLE);
         }
         if (logik.erSpilletTabt()) {
             info.append("\nDu har tabt, ordet var : " + logik.getOrdet());
             Toast.makeText(getActivity(), "Du har tabt", Toast.LENGTH_SHORT).show();
+            edit.setVisibility(View.INVISIBLE);
             gætKnap.setVisibility(View.INVISIBLE);
             spilIgen.setVisibility(View.VISIBLE);
         }

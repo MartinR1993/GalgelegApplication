@@ -1,5 +1,6 @@
 package project.martin.galgelegprojekt;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ public class tilfoejOrd_frag extends Fragment implements View.OnClickListener {
         TextView overskrift = new TextView(getActivity());
         overskrift.setText("Ord som er tilføjet");
         overskrift.setTextSize(36);
+        overskrift.setTextColor(Color.BLACK);
         tl.addView(overskrift);
 
         tv = new TextView(getActivity());
@@ -39,7 +41,9 @@ public class tilfoejOrd_frag extends Fragment implements View.OnClickListener {
         tl.addView(tv);
 
         TextView til = new TextView(getActivity());
-        til.setText("\nTilføj et ord herunder");
+        til.setText("\nTilføj et ord herunder:");
+        til.setTextSize(16);
+        til.setTextColor(Color.BLACK);
         tl.addView(til);
 
         LinearLayout ll = new LinearLayout(getActivity());

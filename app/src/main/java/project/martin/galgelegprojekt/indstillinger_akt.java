@@ -21,7 +21,7 @@ public class indstillinger_akt extends AppCompatActivity implements AdapterView.
         setTitle("Indstillinger");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String[] indstillinger = {"Hjælp", "Om appen"};
+        String[] indstillinger = {"Hjælp", "Skift sprog", "Om appen"};
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1, indstillinger);
 
         ListView listView = new ListView(this);
@@ -33,6 +33,9 @@ public class indstillinger_akt extends AppCompatActivity implements AdapterView.
 
 
     public void onItemClick(AdapterView<?> liste, View v, int position, long id) {
+        if(position == 1){
+
+        }
         Toast.makeText(this, "Ikke implementeret endnu", Toast.LENGTH_SHORT).show();
     }
 
