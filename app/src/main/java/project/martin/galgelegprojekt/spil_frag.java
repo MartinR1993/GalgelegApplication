@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class spil_frag extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        ScrollView sw = new ScrollView(getActivity());
         TableLayout tl = new TableLayout(getActivity());
 
         info = new TextView(getActivity());
@@ -54,7 +56,8 @@ public class spil_frag extends Fragment implements View.OnClickListener {
         gætKnap.setOnClickListener(this);
         spilIgen.setOnClickListener(this);
 
-        return tl;
+        sw.addView(tl);
+        return sw;
     }
 
     @Override
