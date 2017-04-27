@@ -1,7 +1,10 @@
 package project.martin.galgelegprojekt;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,19 +26,50 @@ import android.widget.Toast;
 public class spil_frag extends Fragment implements View.OnClickListener {
     Galgelogik logik = new Galgelogik();
     private ImageView iw;
-    private TextView info;
-    private Button gætKnap, spilIgen;
+    private TextView info, scoreWin, scoreLoose;
+    private Button gætKnap, spilIgen, resetScore;
     private EditText edit;
+
+    SharedPreferences prefs;
+
+    public spil_frag (){
+        System.out.println("spilfrag oprettet");
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        System.out.println("spilfragment oncreateview");
         ScrollView sw = new ScrollView(getActivity());
         TableLayout tl = new TableLayout(getActivity());
         LinearLayout ll = new LinearLayout(getActivity());
+        LinearLayout ll2 = new LinearLayout(getActivity());
+        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        System.out.println("winscore = " + prefs.getInt("Score", prefs.getInt("Score", 0)));
+        System.out.println("loosescore = " + prefs.getInt("ScoreLoose", prefs.getInt("ScoreLoose", 0)));
+
+        new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object... arg0) {
+                try {
+                    logik.hentOrdFraDr();
+                    return "ordene blev hentet";
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return e;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Object resultat) {
+                System.out.println("resultat: \n" + resultat);
+                opdaterSkærm();
+            }
+        }.execute();
 
         info = new TextView(getActivity());
         info.setText("Velkommen til Galgelegen!" +
-                "\nDu skal gætte dette ord: "+logik.getSynligtOrd() +
                 "\nHeld og lykke :)\n");
         tl.addView(info);
 
@@ -45,12 +79,13 @@ public class spil_frag extends Fragment implements View.OnClickListener {
 
         edit = new EditText(getActivity());
         edit.setHint("Skriv ét bogstav...");
-        edit.setWidth(750);
+        edit.setLayoutParams(new TableLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
         ll.addView(edit);
 
         gætKnap = new Button(getActivity());
         gætKnap.setText("Gæt");
         gætKnap.setBackgroundColor(Color.parseColor("#03A9F4"));
+        gætKnap.setLayoutParams(new TableLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 5f));
         ll.addView(gætKnap);
 
         tl.addView(ll);
@@ -59,6 +94,27 @@ public class spil_frag extends Fragment implements View.OnClickListener {
         spilIgen.setText("Spil igen");
         spilIgen.setVisibility(View.INVISIBLE);
         tl.addView(spilIgen);
+
+        scoreWin = new TextView(getActivity());
+        scoreWin.setText("Antal vundne spil: " + prefs.getInt("Score", 0) );
+        scoreWin.setLayoutParams(new TableLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        scoreWin.setTextColor(Color.RED);
+        ll2.addView(scoreWin);
+
+        scoreLoose = new TextView(getActivity());
+        scoreLoose.setText("Antal tabte spil: " + prefs.getInt("ScoreLoose", 0) );
+        scoreLoose.setTextColor(Color.RED);
+        scoreWin.setLayoutParams(new TableLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        ll2.addView(scoreLoose);
+
+        tl.addView(ll2);
+
+
+        /*//Knap til at nultille score
+        resetScore = new Button(getActivity());
+        resetScore.setText("Nulstil scorer");
+        tl.addView(resetScore);
+        resetScore.setOnClickListener(this);*/
 
         gætKnap.setOnClickListener(this);
         spilIgen.setOnClickListener(this);
@@ -82,11 +138,22 @@ public class spil_frag extends Fragment implements View.OnClickListener {
             opdaterSkærm();
         }
         else if(v == spilIgen){
-            getFragmentManager().beginTransaction()
+            getFragmentManager().popBackStack();
+
+            getFragmentManager()
+                    .beginTransaction()
                     .replace(R.id.fragmentindhold, new spil_frag())
                     .addToBackStack(null)
                     .commit();
+
         }
+        /*//Onclick metode til at nulstille scoren
+        else if(v == resetScore){
+            prefs.edit().putInt("ScoreLoose", 0).commit();
+            prefs.edit().putInt("Score", 0).commit();
+            System.out.println("Scorene er blevet nulstillet!");
+            opdaterSkærm();
+        }*/
 
     }
 
@@ -123,6 +190,7 @@ public class spil_frag extends Fragment implements View.OnClickListener {
                 iw.setImageResource(R.drawable.forkert7);
         }
         if (logik.erSpilletVundet()) {
+            prefs.edit().putInt("Score", prefs.getInt("Score", 0)+1).commit();
             info.append("\nDu har vundet");
             Toast.makeText(getActivity(), "Du har vundet", Toast.LENGTH_SHORT).show();
             edit.setVisibility(View.INVISIBLE);
@@ -130,6 +198,7 @@ public class spil_frag extends Fragment implements View.OnClickListener {
             spilIgen.setVisibility(View.VISIBLE);
         }
         if (logik.erSpilletTabt()) {
+            prefs.edit().putInt("ScoreLoose", prefs.getInt("ScoreLoose", 0)+1).commit();
             info.append("\nDu har tabt, ordet var : " + logik.getOrdet());
             Toast.makeText(getActivity(), "Du har tabt", Toast.LENGTH_SHORT).show();
             edit.setVisibility(View.INVISIBLE);

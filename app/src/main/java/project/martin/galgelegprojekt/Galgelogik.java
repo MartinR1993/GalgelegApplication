@@ -1,5 +1,7 @@
 package project.martin.galgelegprojekt;
 
+import android.os.AsyncTask;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,7 +12,7 @@ import java.util.HashSet;
 import java.util.Random;
 
 public class Galgelogik {
-  public ArrayList<String> muligeOrd = new ArrayList<String>();
+  public static ArrayList<String> muligeOrd = new ArrayList<String>();
   private String ordet;
   private ArrayList<String> brugteBogstaver = new ArrayList<String>();
   private String synligtOrd;
@@ -54,7 +56,7 @@ public class Galgelogik {
 
 
   public Galgelogik() {
-    muligeOrd.add("bil");
+    /*muligeOrd.add("bil");
     muligeOrd.add("computer");
     muligeOrd.add("programmering");
     muligeOrd.add("motorvej");
@@ -62,13 +64,10 @@ public class Galgelogik {
     muligeOrd.add("gangsti");
     muligeOrd.add("skovsnegl");
     muligeOrd.add("solsort");
-    nulstil();
-     /*try {
-      hentOrdFraDr();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }*/
+    nulstil();*/
   }
+
+
 
   public String toString(){
     String array = null;
@@ -155,15 +154,21 @@ public class Galgelogik {
   }
 
   public void hentOrdFraDr() throws Exception {
-    String data = hentUrl("http://dr.dk");
-    System.out.println("data = " + data);
+    if(muligeOrd.isEmpty()) {
+      String data = hentUrl("http://dr.dk");
+      System.out.println("data = " + data);
 
-    data = data.replaceAll("<.+?>", " ").toLowerCase().replaceAll("[^a-zæøå]", " ");
-    System.out.println("data = " + data);
-    muligeOrd.clear();
-    muligeOrd.addAll(new HashSet<String>(Arrays.asList(data.split(" "))));
+      data = data.substring(data.indexOf("<body")).
+              replaceAll("<.+?>", " ").toLowerCase().replaceAll("[^a-zæøå]", " ").
+              replaceAll(" [a-zæøå] ", " "). // fjern 1-bogstavsord
+              replaceAll(" [a-zæøå][a-zæøå] ", " "); // fjern 2-bogstavsord
+      System.out.println("data = " + data);
+      muligeOrd.clear();
+      muligeOrd.addAll(new HashSet<String>(Arrays.asList(data.split(" "))));
 
-    System.out.println("muligeOrd = " + muligeOrd);
+      System.out.println("muligeOrd = " + muligeOrd);
+    }
     nulstil();
+    System.out.println("Ordet er: " + getOrdet());
   }
 }

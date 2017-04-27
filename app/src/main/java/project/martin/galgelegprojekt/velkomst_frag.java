@@ -25,7 +25,7 @@ public class velkomst_frag extends Fragment implements Runnable {
 
     @Override
     public void run() {
-        Fragment fragment = new hovedmenu_frag();
+        Fragment fragment = new logind_frag();
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 .replace(R.id.fragmentindhold, fragment)
